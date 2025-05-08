@@ -1,10 +1,26 @@
+# Search API
+Goal: Learn about Elastic Search, Spring Data Elastic Search and about Search Concepts.
 
 
-run elastic search instance on docker
+
+
+
+run elastic search instance using docker.
+the security is disabled (docker-compose.yml) 
+
 ```shell
-docker run -d --name es762 -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2
+docker-compose up -d
 ```
 
+delete index if needed:
+```
+curl -X DELETE http://localhost:9200/shows
+```
+
+Swagger
+
+http://localhost:8080/swagger-ui/index.html
 
 ## References
+[Spring Elasticsearch Version](https://docs.spring.io/spring-data/elasticsearch/reference/elasticsearch/versions.html)
 [Baeldung - Spring Data Elastic Search Tutorial](https://www.baeldung.com/spring-data-elasticsearch-tutorial)

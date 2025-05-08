@@ -1,4 +1,4 @@
-package com.khirata.search_api;
+package com.khirata.search.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
