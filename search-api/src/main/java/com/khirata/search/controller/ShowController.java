@@ -2,7 +2,10 @@ package com.khirata.search.controller;
 
 import com.khirata.search.domain.Show;
 import com.khirata.search.service.ShowService;
+import com.khirata.search.web.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +28,13 @@ public class ShowController {
     @DeleteMapping("{id}")
     void delete(@PathVariable("id") String id) {
         service.deleteById(id);
+    }
+
+    @GetMapping(params =  { "title", "page", "size"})
+    HttpEntity<PagedResponse<Show>> findByTitle(@RequestParam("title") String title,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "size", defaultValue = "30") int size) {
+        PagedResponse<Show> shows = service.findByTitle(title, page, size);
+        return ResponseEntity.ok(shows);
     }
 }
