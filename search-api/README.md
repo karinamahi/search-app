@@ -74,10 +74,13 @@ POST /shows
 
 Swagger: http://localhost:8080/swagger-ui/index.html
 
+## Indexing the dataset
+
+I created the `LoadDataHelper.java` to help me to index the Netflix dataset. Now that all netflix shows are indexed, the next step is to explore the search features. 
+
 ## Next Steps
-- Index more/all documents/shows
-- Explore search 
-- Explore Elasticsearch client
+- Explore search (TODO)
+- Explore Elasticsearch client (TODO)
 
 
 ## References
