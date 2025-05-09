@@ -26,6 +26,7 @@ public class Show {
     @Field(type = FieldType.Date)
     private LocalDate dateAdded;
     private Integer releaseYear;
+    private String rating;
     private String duration;
     @Field(type = FieldType.Keyword)
     private List<String> categories;
@@ -95,6 +96,14 @@ public class Show {
         this.releaseYear = releaseYear;
     }
 
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
     public String getDuration() {
         return duration;
     }
@@ -117,5 +126,25 @@ public class Show {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Show{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", type='" + type + '\'' +
+                ", directors=" + directors +
+                ", cast=" + cast +
+                ", country=" + country +
+                ", dateAdded=" + dateAdded +
+                ", releaseYear=" + releaseYear +
+                ", rating='" + rating + '\'' +
+                ", duration='" + duration + '\'' +
+                ", categories=" + categories +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
