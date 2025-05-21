@@ -30,11 +30,20 @@ public class ShowController {
         service.deleteById(id);
     }
 
-    @GetMapping(params =  { "title", "page", "size"})
+    @GetMapping
     HttpEntity<PagedResponse<Show>> findByTitle(@RequestParam("title") String title,
                            @RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "size", defaultValue = "30") int size) {
         PagedResponse<Show> shows = service.findByTitle(title, page, size);
+        return ResponseEntity.ok(shows);
+    }
+
+    @GetMapping("/similar")
+    HttpEntity<PagedResponse<Show>> searchSimilar(@RequestParam(value= "id") String id,
+                                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                                @RequestParam(value = "size", defaultValue = "30") int size) {
+
+        PagedResponse<Show> shows = service.searchSimilar(id, page, size);
         return ResponseEntity.ok(shows);
     }
 }

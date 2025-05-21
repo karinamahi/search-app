@@ -13,4 +13,5 @@ public interface ShowRepository extends ElasticsearchRepository<Show, String> {
     Show save(Show show);
     void deleteById(String id);
     Page<Show> findByTitle(String title, Pageable pageable);
+    Page<Show> searchSimilar(Show show, String[] fields, Pageable pageable);
 }

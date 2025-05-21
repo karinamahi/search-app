@@ -28,6 +28,17 @@ public class ShowService {
 
     public PagedResponse<Show> findByTitle(String title, int pageNumber, int pageSize) {
         Page<Show> shows = repository.findByTitle(title, PageRequest.of(pageNumber, pageSize));
+        return getPagedResponse(shows);
+    }
+
+    public PagedResponse<Show> searchSimilar(String id, int pageNumber, int pageSize) {
+        Show show = findById(id);
+        String[] fields = {"title", "description"};
+        Page<Show> shows = repository.searchSimilar(show, fields, PageRequest.of(pageNumber, pageSize));
+        return getPagedResponse(shows);
+    }
+
+    private PagedResponse<Show> getPagedResponse(Page<Show> shows) {
         PagedResponse<Show> response = new PagedResponse<>();
         response.setContent(shows.getContent());
         response.setPage(shows.getNumber());

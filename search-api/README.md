@@ -78,6 +78,69 @@ Swagger: http://localhost:8080/swagger-ui/index.html
 
 I created the `LoadDataHelper.java` to help me to index the Netflix dataset. Now that all netflix shows are indexed, the next step is to explore the search features. 
 
+## Search Similar - Spring Data Elasticsearch
+The method `similarSearch` in Spring Data Elasticsearch allows us to find documents similar to a given document. It uses Elasticsearch's `more_like_this` query under the hood. 
+
+This can be useful for recommendations and related content suggestions.
+
+We can specify the fields to be compared. In this case, I'm using the fields `title` and `description`. We also must specify the document/show to be used as reference. 
+
+```java
+public PagedResponse<Show> searchSimilar(String id, int pageNumber, int pageSize) {
+    Show show = findById(id);
+    String[] fields = {"title", "description"};
+    Page<Show> shows = repository.searchSimilar(show, fields, PageRequest.of(pageNumber, pageSize));
+    return getPagedResponse(shows);
+}
+```
+First I searched for `Squid Game`:
+
+```json
+http://localhost:8080/shows?title=Squid%20Game&page=0&size=30
+{
+  "content": [
+    {
+      "id": "s34",
+      "title": "Squid Game",
+      "type": "TV Show",
+      "directors": [],
+      "cast": [
+        "Lee Jung-jae",
+        "Park Hae-soo",
+        "Wi Ha-jun",
+        "Oh Young-soo",
+        "Jung Ho-yeon",
+        "Heo Sung-tae",
+        "Kim Joo-ryoung",
+        "Tripathi Anupam",
+        "You Seong-joo",
+        "Lee You-mi"
+      ],
+      "country": [],
+      "dateAdded": "September 17, 2021",
+      "releaseYear": 2021,
+      "rating": "TV-MA",
+      "duration": "1 Season",
+      "categories": [
+        "International TV Shows",
+        "TV Dramas",
+        "TV Thrillers"
+      ],
+      "description": "Hundreds of cash-strapped players accept a strange invitation to compete in children's games. Inside, a tempting prize awaits — with deadly high stakes."
+    }
+  ],
+  "page": 0,
+  "size": 30,
+  "totalItems": 1,
+  "totalPages": 1
+}
+```
+Then, I searched the similar shows using its id:
+```json
+http://localhost:8080/shows/similar?id=s34&page=0&size=10
+```
+You can view the results [here](public/search-similar-title-and-description.json).
+
 ## Next Steps
 - Explore search (TODO)
 - Explore Elasticsearch client (TODO)
