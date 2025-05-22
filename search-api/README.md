@@ -74,6 +74,8 @@ POST /shows
 
 Swagger: http://localhost:8080/swagger-ui/index.html
 
+Elasticsearch documentation provides a very helpful list of supported keywords. See the documentation [here](https://docs.spring.io/spring-data/elasticsearch/docs/4.1.5/reference/html/#elasticsearch.query-methods.criterions).
+
 ## Indexing the dataset
 
 I created the `LoadDataHelper.java` to help me to index the Netflix dataset. Now that all netflix shows are indexed, the next step is to explore the search features. 
@@ -96,7 +98,7 @@ public PagedResponse<Show> searchSimilar(String id, int pageNumber, int pageSize
 First I searched for `Squid Game`:
 
 ```json
-http://localhost:8080/shows?title=Squid%20Game&page=0&size=30
+//http://localhost:8080/shows?title=Squid%20Game&page=0&size=30
 {
   "content": [
     {
@@ -137,9 +139,64 @@ http://localhost:8080/shows?title=Squid%20Game&page=0&size=30
 ```
 Then, I searched the similar shows using its id:
 ```json
-http://localhost:8080/shows/similar?id=s34&page=0&size=10
+//http://localhost:8080/shows/similar?id=s34&page=0&size=10
 ```
 You can view the results [here](public/search-similar-title-and-description.json).
+
+Comparing the results, I couldn't quite understand how Elasticsearch is matching the title and description - I thought I would at least see some similar words.
+
+But let's continue exploring the `searchSimilar` method. 
+
+Now I'm imagining a list of recommendations based on country, like a section titled 'Other Korean shows you might like'.
+
+So I'm using only the `country` field:
+```java
+String[] fields = {"country"};
+```
+Now it's not returning any results:
+```json
+{
+  "content": [],
+  "page": 0,
+  "size": 10,
+  "totalItems": 0,
+  "totalPages": 0
+}
+```
+I noticed that Squid Game doesn't have any values for field `country`. So I tried other shows making sure they have values for `country` but even though, nothing is returned.
+I wonder if there is something wrong with `country` field specification. Currently it is like this:
+
+```java
+@Field(type = FieldType.Text)
+private List<String> country;
+```
+I tried to use the fields `categories` and `cast`, and I had the zero results as well. So my guess is that there is something wrong related to lists.
+
+I enabled the HTTP-level logging by adding this to `application.properties`: 
+```properties
+logging.level.org.apache.http=DEBUG
+logging.level.org.elasticsearch.client=DEBUG
+```
+Then, I got this from logs:
+```text
+{"from":0,"query":{"more_like_this":{"fields":["cast"],"like":[{"_id":"s784","_index":"shows"}]}},"size":10,"sort":[],"track_scores":false,"version":true}[\r][\n]
+
+{"took":654,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}[\r][\n]
+```
+Looking at the [Elasticsearch documentation](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-mlt-query), there is this note:
+
+> Important
+> 
+> The fields on which to perform MLT must be indexed and of type text or keyword. Additionally, when using like with documents, either _source must be enabled or the fields must be stored or store term_vector. In order to speed up analysis, it could help to store term vectors at index time.
+
+Let's see how my documents are indexed:
+```text
+I'm using httpie on terminal
+http GET http://localhost:9200/shows
+```
+Reading the note again, I don't see any problem with the mapping. See my mapping details [here](public/show-mapping.json). 
+
+I'm not sure the `more_like_this` query needs larger text to work properly or there is something I'm missing here. Maybe in the future I will return to understand this better.
 
 ## Next Steps
 - Explore search (TODO)

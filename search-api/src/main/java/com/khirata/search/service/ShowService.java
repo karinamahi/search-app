@@ -33,7 +33,7 @@ public class ShowService {
 
     public PagedResponse<Show> searchSimilar(String id, int pageNumber, int pageSize) {
         Show show = findById(id);
-        String[] fields = {"title", "description"};
+        String[] fields = {"categories"};
         Page<Show> shows = repository.searchSimilar(show, fields, PageRequest.of(pageNumber, pageSize));
         return getPagedResponse(shows);
     }

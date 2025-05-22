@@ -14,7 +14,7 @@ class LoadShowsFromCSV {
 	@Autowired
 	private ShowService service;
 
-	@Test
+	//@Test
 	void test() throws Exception {
 		Assertions.assertNotNull(service);
 		List<Show> shows = LoadDataHelper.loadFromCSV("<your_filepath>/netflix_titles_copy.csv");

@@ -1,0 +1,107 @@
+{
+  "shows": {
+    "aliases": {},
+    "mappings": {
+      "properties": {
+        "_class": {
+          "doc_values": false,
+          "index": false,
+          "type": "keyword"
+        },
+        "cast": {
+          "type": "text"
+        },
+        "categories": {
+          "type": "keyword"
+        },
+        "country": {
+          "type": "text"
+        },
+        "dateAdded": {
+          "format": "date_optional_time||epoch_millis",
+          "type": "date"
+        },
+        "description": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        },
+        "directors": {
+          "type": "text"
+        },
+        "duration": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        },
+        "id": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        },
+        "rating": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        },
+        "releaseYear": {
+          "type": "long"
+        },
+        "title": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        },
+        "type": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        }
+      }
+    },
+    "settings": {
+      "index": {
+        "creation_date": "1746727460680",
+        "number_of_replicas": "1",
+        "number_of_shards": "1",
+        "provided_name": "shows",
+        "refresh_interval": "1s",
+        "routing": {
+          "allocation": {
+            "include": {
+              "_tier_preference": "data_content"
+            }
+          }
+        },
+        "uuid": "So1RnGhqQ2euoBYGRrM0wQ",
+        "version": {
+          "created": "8512000"
+        }
+      }
+    }
+  }
+}
