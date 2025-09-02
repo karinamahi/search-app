@@ -198,7 +198,12 @@ Reading the note again, I don't see any problem with the mapping. See my mapping
 
 I'm not sure the `more_like_this` query needs larger text to work properly or there is something I'm missing here. Maybe in the future I will return to understand this better.
 
+## Front End
+To make this study project more visual, I decided to create a frontend module, providing a friendlier way to compare results and further explore search features and concepts.
+http://localhost:8080/search-ui/index.html
+
 ## Next Steps
+- Front-end module (In progress)
 - Explore search (TODO)
 - Explore Elasticsearch client (TODO)
 
