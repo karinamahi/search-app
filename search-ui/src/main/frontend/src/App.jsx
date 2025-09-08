@@ -1,7 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import ResultList from './components/ResultList';
+import './App.css';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -17,11 +16,13 @@ function App() {
       setResults(data);
     } catch (error) {
       console.error('Error fetching search results:', error);
+      setResults(null);
     }
   };
+
   return (
     <div style={{ padding: '2rem', maxWidth: 600, margin: 'auto' }}>
-      <h1>Search App</h1>
+      <h1>Netflix Show Search</h1>
       <input
         type="text"
         value={query}
@@ -33,12 +34,10 @@ function App() {
         Search
       </button>
       <div style={{ marginTop: '2rem' }}>
-        {results && (
-          <pre>{JSON.stringify(results, null, 2)}</pre>
-        )}
+        <ResultList results={results} />
       </div>
     </div>
   );
 }
 
-export default App
+export default App;
