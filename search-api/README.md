@@ -198,7 +198,7 @@ Reading the note again, I don't see any problem with the mapping. See my mapping
 
 I'm not sure the `more_like_this` query needs larger text to work properly or there is something I'm missing here. Maybe in the future I will return to understand this better.
 
-## Front End
+## Frontend
 To make this study project more visual, I decided to create a frontend module, providing a friendlier way to compare results and further explore search features and concepts.
 
 - Vite + React
@@ -212,7 +212,7 @@ gradle search-api:bootRun
 http://localhost:8080/search-ui/index.html
 
 This will be our first version of the frontend. It is quite simple, and we'll improve it according to our needs.
-![image info](/Users/karinamahi/projects/search-app/search-api/public/search-page-v1.png)
+![image info](https://github.com/karinamahi/search-app/blob/main/search-api/public/search-page-v1.png)
 
 ## Next Steps
 - Front-end module (In progress)
