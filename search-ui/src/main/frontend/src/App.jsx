@@ -21,14 +21,14 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: 600, margin: 'auto' }}>
+    <div style={{ padding: '2rem 0', margin: '0 auto' }}>
       <h1>Netflix Show Search</h1>
       <input
         type="text"
         value={query}
         onChange={e => setQuery(e.target.value)}
         placeholder="Type your query..."
-        style={{ width: '70%', padding: '0.5rem' }}
+        style={{ width: '500px', padding: '0.5rem' }}
       />
       <button onClick={handleSearch} style={{ padding: '0.5rem 1rem', marginLeft: '1rem' }}>
         Search

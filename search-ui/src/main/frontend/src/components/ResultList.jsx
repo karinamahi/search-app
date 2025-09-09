@@ -7,7 +7,13 @@ function ResultList({ results }) {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(5, 1fr)',
+        gap: '16px',
+      }}
+    >
       {results.content.map(show => (
         <ResultItem key={show.id} show={show} />
       ))}

@@ -200,7 +200,19 @@ I'm not sure the `more_like_this` query needs larger text to work properly or th
 
 ## Front End
 To make this study project more visual, I decided to create a frontend module, providing a friendlier way to compare results and further explore search features and concepts.
+
+- Vite + React
+- project search-ui
+- using gradle to build search-ui and send the generated files to search-api.
+
+run the application using the terminal or IntelliJ.
+```bash
+gradle search-api:bootRun
+```
 http://localhost:8080/search-ui/index.html
+
+This will be our first version of the frontend. It is quite simple, and we'll improve it according to our needs.
+![image info](/Users/karinamahi/projects/search-app/search-api/public/search-page-v1.png)
 
 ## Next Steps
 - Front-end module (In progress)

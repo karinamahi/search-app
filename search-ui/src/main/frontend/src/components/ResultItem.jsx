@@ -3,13 +3,14 @@ import React from 'react';
 function ResultItem({ show }) {
   return (
     <div style={{
-      border: '1px solid #292929',
+      border: '1px solid #474646ff',
       borderRadius: 8,
-      padding: 16,
-      marginBottom: 16,
+      padding: 12,
+      marginBottom: 12,
       boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
       background: '#292929',
       textAlign: 'left',
+      fontSize: '11px',
     }}>
       <h2 style={{ margin: '0 0 8px 0' }}>{show.title}</h2>
       <p><strong>Type:</strong> {show.type}</p>
