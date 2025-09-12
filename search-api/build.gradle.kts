@@ -22,6 +22,7 @@ dependencies {
 	implementation("org.springframework.data:spring-data-elasticsearch:5.4.5")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
 	implementation("com.opencsv:opencsv:5.8")
+	implementation("com.google.code.gson:gson:2.13.2")
 	implementation(project(":search-ui"))
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

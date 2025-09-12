@@ -3,7 +3,9 @@ package com.khirata.search.controller;
 import com.khirata.search.domain.Show;
 import com.khirata.search.service.ShowService;
 import com.khirata.search.web.PagedResponse;
+import com.khirata.search.web.ShowResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,18 +34,26 @@ public class ShowController {
 
     @GetMapping
     HttpEntity<PagedResponse<Show>> findByTitle(@RequestParam("title") String title,
-                           @RequestParam(value = "page", defaultValue = "0") int page,
-                           @RequestParam(value = "size", defaultValue = "30") int size) {
+                                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                                @RequestParam(value = "size", defaultValue = "30") int size) {
         PagedResponse<Show> shows = service.findByTitle(title, page, size);
         return ResponseEntity.ok(shows);
     }
 
     @GetMapping("/similar")
-    HttpEntity<PagedResponse<Show>> searchSimilar(@RequestParam(value= "id") String id,
-                                                @RequestParam(value = "page", defaultValue = "0") int page,
-                                                @RequestParam(value = "size", defaultValue = "30") int size) {
+    HttpEntity<PagedResponse<Show>> searchSimilar(@RequestParam(value = "id") String id,
+                                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                                  @RequestParam(value = "size", defaultValue = "30") int size) {
 
         PagedResponse<Show> shows = service.searchSimilar(id, page, size);
+        return ResponseEntity.ok(shows);
+    }
+
+    @GetMapping("/search")
+    HttpEntity<PagedResponse<ShowResponse>> searchTitle(@RequestParam(value = "title") String title,
+                                                        @RequestParam(value = "page", defaultValue = "0") int page,
+                                                        @RequestParam(value = "size", defaultValue = "30") int size) {
+        PagedResponse<ShowResponse> shows = service.searchByTitle(title, page, size);
         return ResponseEntity.ok(shows);
     }
 }

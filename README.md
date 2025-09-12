@@ -214,9 +214,36 @@ http://localhost:8080/search-ui/index.html
 This will be our first version of the frontend. It is quite simple, and we'll improve it according to our needs.
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v1.png)
 
+## Search Features - Spring Data 
+Looking at the spring data elastic search documentation, I found that there is some result types that can be interesting to explore: see the documentation [here](https://docs.spring.io/spring-data/elasticsearch/docs/4.1.5/reference/html/#elasticsearch.operations.searchresulttypes).
+I chose the SearchPage to explore:
+
+> SearchPage<T>
+> 
+> Defines a Spring Data Page that contains a SearchHits<T> element and can be used for paging access using repository methods.
+
+My first try was to return the SearchPage, but I got the exception `No serializer found for class ElasticsearchAggregations`. Apparently, it means that Jackson doesn't know how to serialize it. Then I decided to implement a DTO and I will only return the search metadata that I need. 
+
+```java
+public record ShowResponse (Show show, float score) {}
+```
+
+For now, I just added the score, and the service is return its value. Now let's improve both backend and frontend to display some data that can help us to improve our search experience. I think it will be interesting to display the following information:
+
+- **score**: relevance score calculated by Elasticsearch based on how well the document matches the query.
+A higher score means better match.
+
+- **highlightFields**: fragments of text where the query terms matched.
+
+- **explanation**: detailed breakdown of how the score was calculated.
+
+
 ## Next Steps
-- Front-end module (In progress)
-- Explore search (TODO)
+- Explore search (IN PROGRESS)
+  - Result type: SearchPage (IN PROGRESS)
+    - score
+    - highlightFields
+    - explanation
 - Explore Elasticsearch client (TODO)
 
 
