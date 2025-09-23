@@ -14,8 +14,8 @@ function ResultList({ results }) {
         gap: '16px',
       }}
     >
-      {results.content.map(show => (
-        <ResultItem key={show.id} show={show} />
+      {results.content.map(item => (
+        <ResultItem key={item.show.id} show={item.show} highlightFields={item.highlightFields} />
       ))}
     </div>
   );

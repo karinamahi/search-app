@@ -410,6 +410,9 @@ Then, I searched by titles with "sun" and we have the highlightFields and explan
     }
   }
 ```
+Adjusting the frontend to see the searched term highlighted in the title:
+
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v2.png)
 
 
 ## Next Steps

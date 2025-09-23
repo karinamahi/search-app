@@ -8,7 +8,7 @@ function App() {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/shows?title=${encodeURIComponent(query)}&page=0&size=30`);
+      const response = await fetch(`http://localhost:8080/shows/search/advanced?query=${encodeURIComponent(query)}&page=0&size=30`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       } 
