@@ -237,6 +237,180 @@ A higher score means better match.
 
 - **explanation**: detailed breakdown of how the score was calculated.
 
+I tried to get the highlight fields and the explanation data, but apparently it's not possible to have them using the Spring Data repository, and we need to use the `NativeQuery` and `ElasticsearchOperations`. So, in summary:
+
+- Repository: great for simple operations and simple searches.
+- Elasticsearch Operations + NativeQuery: advanced searches.
+
+## Advanced Search
+
+Let's implement our search using `ElasticsearchOperations` and `NativeQuery`:
+
+```java
+@Service
+public class SearchShowService {
+
+    private final ElasticsearchOperations operations;
+    
+    public SearchShowService(ElasticsearchOperations operations) {
+        this.operations = operations;
+    }
+
+    public PagedResponse<ShowResponse> search(String userQuery, int page, int size) {
+
+        PageRequest pageable = PageRequest.of(page, size);
+
+        Highlight highlight = new Highlight(List.of(new HighlightField("title")));
+        HighlightQuery highlightQuery = new HighlightQuery(highlight, Show.class);
+
+        NativeQuery query = NativeQuery.builder()
+                .withQuery(q -> q
+                        .match(m -> m.field("title").query(userQuery)))
+                .withExplain(true)
+                .withPageable(pageable)
+                .withHighlightQuery(highlightQuery)
+                .build();
+
+        SearchHits<Show> hits = operations.search(query, Show.class);
+        SearchPage<Show> searchPage = SearchHitSupport.searchPageFor(hits, pageable);
+        return getPagedResponse(searchPage);
+    }
+
+    private PagedResponse<ShowResponse> getPagedResponse(SearchPage<Show> searchPage) {
+
+        List<ShowResponse> responses = searchPage.getSearchHits().stream()
+                                            .map(hit -> new ShowResponse(hit.getContent(), hit.getScore(), hit.getHighlightFields(), hit.getExplanation()))
+                                            .toList();
+        PagedResponse<ShowResponse> pagedResponse = new PagedResponse<>();
+        pagedResponse.setTotalPages(searchPage.getTotalPages());
+        pagedResponse.setTotalItems(searchPage.getTotalElements());
+        pagedResponse.setSize(searchPage.getSize());
+        pagedResponse.setPage(searchPage.getNumber());
+        pagedResponse.setContent(responses);
+        return pagedResponse;
+    }
+}
+```
+Then, I searched by titles with "sun" and we have the highlightFields and explanation in the response. Here's the first item:
+```json
+{
+    "show": {
+      "id": "s493",
+      "title": "Midnight Sun",
+      "type": "Movie",
+      "directors": [
+        "Scott Speer"
+      ],
+      "cast": [
+        "Bella Thorne",
+        "Patrick Schwarzenegger",
+        "Rob Riggle",
+        "Quinn Shephard",
+        "Suleka Mathew",
+        "Tiera Skovbye",
+        "Ken Tremblett",
+        "Norm Misura",
+        "Austin Obiajunwa",
+        "Nicholas Coombe"
+      ],
+      "country": [
+        "United States"
+      ],
+      "dateAdded": "July 08, 2021",
+      "releaseYear": 2018,
+      "rating": "PG-13",
+      "duration": "91 min",
+      "categories": [
+        "Dramas",
+        "Romantic Movies"
+      ],
+      "description": "Born with a fatal sensitivity to sunlight, a sheltered teen girl falls for her neighbor, but hides her condition from him as their romance blossoms."
+    },
+    "score": 7.6653967,
+    "highlightFields": {
+      "title": [
+        "Midnight <em>Sun</em>"
+      ]
+    },
+    "explanation": {
+      "match": true,
+      "value": 7.665396690368652,
+      "description": "weight(title:sun in 489) [PerFieldSimilarity], result of:",
+      "details": [
+        {
+          "match": false,
+          "value": 7.665396690368652,
+          "description": "score(freq=1.0), computed as boost * idf * tf from:",
+          "details": [
+            {
+              "match": false,
+              "value": 2.200000047683716,
+              "description": "boost",
+              "details": []
+            },
+            {
+              "match": false,
+              "value": 6.552560806274414,
+              "description": "idf, computed as log(1 + (N - n + 0.5) / (n + 0.5)) from:",
+              "details": [
+                {
+                  "match": false,
+                  "value": 13,
+                  "description": "n, number of documents containing term",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 9463,
+                  "description": "N, total number of documents with field",
+                  "details": []
+                }
+              ]
+            },
+            {
+              "match": false,
+              "value": 0.5317418575286865,
+              "description": "tf, computed as freq / (freq + k1 * (1 - b + b * dl / avgdl)) from:",
+              "details": [
+                {
+                  "match": false,
+                  "value": 1,
+                  "description": "freq, occurrences of term within document",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 1.2000000476837158,
+                  "description": "k1, term saturation parameter",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 0.75,
+                  "description": "b, length normalization parameter",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 2,
+                  "description": "dl, length of field",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 3.100179672241211,
+                  "description": "avgdl, average length of field",
+                  "details": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+```
+
 
 ## Next Steps
 - Explore search (IN PROGRESS)
@@ -244,7 +418,7 @@ A higher score means better match.
     - score
     - highlightFields
     - explanation
-- Explore Elasticsearch client (TODO)
+- Explore Elasticsearch client (IN PROGRESS)
 
 
 ## References

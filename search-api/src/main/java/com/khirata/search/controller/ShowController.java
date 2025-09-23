@@ -1,6 +1,7 @@
 package com.khirata.search.controller;
 
 import com.khirata.search.domain.Show;
+import com.khirata.search.service.SearchShowService;
 import com.khirata.search.service.ShowService;
 import com.khirata.search.web.PagedResponse;
 import com.khirata.search.web.ShowResponse;
@@ -16,6 +17,8 @@ public class ShowController {
 
     @Autowired
     private ShowService service;
+    @Autowired
+    private SearchShowService searchService;
 
     @GetMapping("/{id}")
     Show findById(@PathVariable("id") String id) {
@@ -54,6 +57,13 @@ public class ShowController {
                                                         @RequestParam(value = "page", defaultValue = "0") int page,
                                                         @RequestParam(value = "size", defaultValue = "30") int size) {
         PagedResponse<ShowResponse> shows = service.searchByTitle(title, page, size);
+        return ResponseEntity.ok(shows);
+    }
+    @GetMapping("/search/advanced")
+    HttpEntity<PagedResponse<ShowResponse>> search(@RequestParam(value = "query") String query,
+                                                        @RequestParam(value = "page", defaultValue = "0") int page,
+                                                        @RequestParam(value = "size", defaultValue = "30") int size) {
+        PagedResponse<ShowResponse> shows = searchService.search(query, page, size);
         return ResponseEntity.ok(shows);
     }
 }

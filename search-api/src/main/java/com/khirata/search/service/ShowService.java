@@ -1,17 +1,13 @@
 package com.khirata.search.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.khirata.search.domain.Show;
 import com.khirata.search.repository.ShowRepository;
 import com.khirata.search.web.PagedResponse;
 import com.khirata.search.web.ShowResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.SearchPage;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,7 +58,7 @@ public class ShowService {
     }
 
     private PagedResponse<ShowResponse> getPagedResponse( SearchPage<Show> searchPage) {
-        List<ShowResponse> content = searchPage.getContent().stream().map(item -> new ShowResponse(item.getContent(), item.getScore())).toList();
+        List<ShowResponse> content = searchPage.getContent().stream().map(item -> new ShowResponse(item.getContent(), item.getScore(),item.getHighlightFields(), item.getExplanation())).toList();
         PagedResponse<ShowResponse> response = new PagedResponse<>();
         response.setContent(content);
         response.setPage(searchPage.getNumber());
