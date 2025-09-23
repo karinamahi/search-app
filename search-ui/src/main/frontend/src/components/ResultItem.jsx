@@ -1,6 +1,9 @@
 import React from 'react';
 
-function ResultItem({ show }) {
+function ResultItem({ show, highlightFields }) {
+
+  const highlightedTitle = highlightFields?.title?.[0] || show.title;
+
   return (
     <div style={{
       border: '1px solid #474646ff',
@@ -12,7 +15,10 @@ function ResultItem({ show }) {
       textAlign: 'left',
       fontSize: '11px',
     }}>
-      <h2 style={{ margin: '0 0 8px 0' }}>{show.title}</h2>
+      <h2
+        style={{ margin: '0 0 8px 0' }}
+        dangerouslySetInnerHTML={{ __html: highlightedTitle }}
+      />
       <p><strong>Type:</strong> {show.type}</p>
       <p><strong>Directors:</strong> {show.directors?.join(', ')}</p>
       <p><strong>Cast:</strong> {show.cast?.join(', ')}</p>
