@@ -414,6 +414,11 @@ Adjusting the frontend to see the searched term highlighted in the title:
 
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v2.png)
 
+I also added the score and the question mark button to display the explanation. This kind of information is not displayed to the user in a real-world application, but since it's project for studies purposes, I think it will be nice to have that information displayed in the frontend.
+
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v4.png)
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v3.png)
+
 
 ## Next Steps
 - Explore search (IN PROGRESS)
