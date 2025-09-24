@@ -15,7 +15,7 @@ function ResultList({ results }) {
       }}
     >
       {results.content.map(item => (
-        <ResultItem key={item.show.id} show={item.show} highlightFields={item.highlightFields} />
+        <ResultItem key={item.show.id} item={item} />
       ))}
     </div>
   );
