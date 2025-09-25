@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ResultList from './components/ResultList';
 import PaginationControl from './components/PaginationControl';
+import SearchSummary from './components/SearchSummary';
 import './App.css';
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
 
   return (
     <div style={{ padding: '2rem 0', margin: '0 auto' }}>
-      <h1>Netflix Show Search - </h1>
+      <h1>Netflix Show Search</h1>
       <input
         type="text"
         value={query}
@@ -45,6 +46,9 @@ function App() {
       >
         Search
       </button>
+
+      <SearchSummary page={page} results={results} query={query} />
+
       <div style={{ marginTop: '2rem' }}>
         <ResultList results={results} />
         <PaginationControl
