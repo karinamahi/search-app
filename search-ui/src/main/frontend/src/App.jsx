@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ResultList from './components/ResultList';
+import PaginationControl from './components/PaginationControl';
 import './App.css';
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
 
   return (
     <div style={{ padding: '2rem 0', margin: '0 auto' }}>
-      <h1>Netflix Show Search</h1>
+      <h1>Netflix Show Search - </h1>
       <input
         type="text"
         value={query}
@@ -46,48 +47,11 @@ function App() {
       </button>
       <div style={{ marginTop: '2rem' }}>
         <ResultList results={results} />
-        {/* Pagination Controls */}
-        {results && results.totalPages > 1 && (
-          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '8px' }}>
-            <button
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 0}
-            >
-              Previous
-            </button>
-            {(() => {
-              const total = results.totalPages;
-              const maxButtons = 5;
-              let start = Math.max(0, page - Math.floor(maxButtons / 2));
-              let end = start + maxButtons;
-              if (end > total) {
-                end = total;
-                start = Math.max(0, end - maxButtons);
-              }
-              return Array.from({ length: end - start }, (_, idx) => {
-                const pageNum = start + idx;
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => handlePageChange(pageNum)}
-                    style={{
-                      fontWeight: pageNum === page ? 'bold' : 'normal',
-                      textDecoration: pageNum === page ? 'underline' : 'none',
-                    }}
-                  >
-                    {pageNum + 1}
-                  </button>
-                );
-              });
-            })()}
-            <button
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === results.totalPages - 1}
-            >
-              Next
-            </button>
-          </div>
-        )}
+        <PaginationControl
+          page={page}
+          totalPages={results?.totalPages || 0}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
