@@ -419,6 +419,19 @@ I also added the score and the question mark button to display the explanation. 
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v4.png)
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v3.png)
 
+I found a very useful explanation about how the score is calculated:
+
+>**Scoring mechanisms in Elasticsearch**
+> 
+>Elasticsearch uses a scoring model called the Practical Scoring Function (BM25) by default. This model is based on the probabilistic information retrieval theory and takes into account factors such as term frequency, inverse document frequency, and field-length normalization. Let’s briefly discuss these factors:
+>
+>**Term Frequency (TF):** This represents the number of times a term appears in a document. A higher term frequency indicates a stronger relationship between the term and the document.
+> 
+>**Inverse Document Frequency (IDF):** This factor measures the importance of a term in the entire document collection. A term that appears in many documents is considered less important, while a term that appears in fewer documents is considered more important.
+> 
+>**Field-length Normalization:** This factor accounts for the length of the field in which the term appears. Shorter fields are given more weight, as the term is considered more significant in a shorter field.
+
+See the full article [Understanding Elasticsearch Scoring and the Explain API](https://www.elastic.co/search-labs/blog/elasticsearch-scoring-and-explain-api).
 
 ## Next Steps
 - Explore search (IN PROGRESS)
@@ -427,6 +440,12 @@ I also added the score and the question mark button to display the explanation. 
     - highlightFields
     - explanation
 - Explore Elasticsearch client (IN PROGRESS)
+- Use cases ideas
+  - filters
+  - relevance according to personas
+  - sort
+  - group by category / country / type
+  - zero results
 
 
 ## References

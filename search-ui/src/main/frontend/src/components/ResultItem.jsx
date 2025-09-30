@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 
 function ResultItem({ item }) {
   const [showExplanation, setShowExplanation] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const show = item.show;
   const score = item.score;
   const scoreExplanation = item.explanation;
-
-  // Use highlighted title if available, otherwise fall back to regular title
   const highlightedTitle = item.highlightFields?.title?.[0] || show.title;
 
   return (
@@ -21,7 +20,7 @@ function ResultItem({ item }) {
       background: '#292929',
       textAlign: 'left',
       fontSize: '11px',
-      minHeight: '220px',
+      minHeight: '180px',
     }}>
       {/* Score badge */}
       <div style={{
@@ -68,15 +67,41 @@ function ResultItem({ item }) {
         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
       />
       <p><strong>Type:</strong> {show.type}</p>
-      <p><strong>Directors:</strong> {show.directors?.join(', ')}</p>
-      <p><strong>Cast:</strong> {show.cast?.join(', ')}</p>
-      <p><strong>Country:</strong> {show.country?.join(', ')}</p>
-      <p><strong>Date Added:</strong> {show.dateAdded}</p>
-      <p><strong>Release Year:</strong> {show.releaseYear}</p>
-      <p><strong>Rating:</strong> {show.rating}</p>
-      <p><strong>Duration:</strong> {show.duration}</p>
       <p><strong>Categories:</strong> {show.categories?.join(', ')}</p>
       <p><strong>Description:</strong> {show.description}</p>
+
+      {/* Show more / Show less toggle */}
+      <button
+        style={{
+          position: 'absolute',
+          right: 12,
+          bottom: 12,
+          margin: 0,
+          padding: '2px 12px',
+          fontSize: '11px',
+          borderRadius: '6px',
+          border: 'none',
+          background: '#444',
+          color: '#fff',
+          cursor: 'pointer',
+          zIndex: 1,
+        }}
+        onClick={() => setExpanded(!expanded)}
+      >
+        {expanded ? 'Show less' : 'Show more'}
+      </button>
+
+      {expanded && (
+        <div style={{ marginTop: '8px' }}>
+          <p><strong>Directors:</strong> {show.directors?.join(', ')}</p>
+          <p><strong>Cast:</strong> {show.cast?.join(', ')}</p>
+          <p><strong>Country:</strong> {show.country?.join(', ')}</p>
+          <p><strong>Date Added:</strong> {show.dateAdded}</p>
+          <p><strong>Release Year:</strong> {show.releaseYear}</p>
+          <p><strong>Rating:</strong> {show.rating}</p>
+          <p><strong>Duration:</strong> {show.duration}</p>
+        </div>
+      )}
 
       {/* Popup for explanation */}
       {showExplanation && (
