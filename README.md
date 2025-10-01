@@ -433,6 +433,26 @@ I found a very useful explanation about how the score is calculated:
 
 See the full article [Understanding Elasticsearch Scoring and the Explain API](https://www.elastic.co/search-labs/blog/elasticsearch-scoring-and-explain-api).
 
+I searched for `squid game` and got this result:
+
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v5.png)
+
+The score of the first document is significantly higher than the rest of the shows. See the full explanation [here](public/squid-game-first-result-explanation.json);
+
+So the show "Squid Game" scored ~16.05 because:
+
+- `squid` contributed ~9.64 (very rare word → high idf).
+- `game` contributed ~6.41 (less rare word → smaller idf).
+
+In summary, rare words increase score more (idf effect). And, term frequency and field length normalization (tf, dl, avgdl) prevent very long fields or repeated terms from inflating the score too much.
+
+One thing that may be confusing is the `"match": false` but:
+
+`"match": true` is only shown at the top (document level), meaning: this doc matched the query.
+
+Nested details (idf, tf, boost, etc.) are not “matches” themselves, they’re explanatory components.
+That’s why they appear with "match": false. They’re not “conditions that matched”, but pieces of the math.
+
 ## Next Steps
 - Explore search (IN PROGRESS)
   - Result type: SearchPage (IN PROGRESS)
@@ -446,6 +466,10 @@ See the full article [Understanding Elasticsearch Scoring and the Explain API](h
   - sort
   - group by category / country / type
   - zero results
+  - KNN
+  - stop-words
+  - synonyms
+  - tokenization
 
 
 ## References

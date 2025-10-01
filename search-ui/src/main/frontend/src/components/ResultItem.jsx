@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ResultItem({ item }) {
+function ResultItem({ item, rank }) {
   const [showExplanation, setShowExplanation] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -22,6 +22,20 @@ function ResultItem({ item }) {
       fontSize: '11px',
       minHeight: '180px',
     }}>
+      {/* Rank badge */}
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        left: 12,
+        borderRadius: '12px',
+        padding: '2px 8px',
+        color: '#61dafb',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        zIndex: 2,
+      }}>
+        #{rank}
+      </div>
       {/* Score badge */}
       <div style={{
         position: 'absolute',
