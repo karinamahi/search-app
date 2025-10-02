@@ -453,6 +453,32 @@ One thing that may be confusing is the `"match": false` but:
 Nested details (idf, tf, boost, etc.) are not “matches” themselves, they’re explanatory components.
 That’s why they appear with "match": false. They’re not “conditions that matched”, but pieces of the math.
 
+### Searching for more fields
+
+May be interesting to search by certain actor. Let's try with the first one of Squid Game: `Lee Jung-jae`
+
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v6.png)
+
+It's not what we expected. Actually, we haven't implemented yet. Our query is only looking at the title field. Let's implement then.
+
+Now, it's considering the `cast` in the search and in the highlight fields.
+```java
+  Highlight highlight = new Highlight(List.of(new HighlightField("title"), new HighlightField("cast")));
+  HighlightQuery highlightQuery = new HighlightQuery(highlight, Show.class);
+
+  NativeQuery query = NativeQuery.builder()
+          .withQuery(q -> q.multiMatch(m -> m.fields("title", "cast").query(userQuery)))
+          .withExplain(true)
+          .withPageable(pageable)
+          .withHighlightQuery(highlightQuery)
+          .build();
+```
+Highlight for cast field implemented in the frontend as well.
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v7.png)
+
+It's working, but I think it could be better. I think 
+
+
 ## Next Steps
 - Explore search (IN PROGRESS)
   - Result type: SearchPage (IN PROGRESS)

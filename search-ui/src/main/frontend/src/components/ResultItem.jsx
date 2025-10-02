@@ -108,7 +108,17 @@ function ResultItem({ item, rank }) {
       {expanded && (
         <div style={{ marginTop: '8px' }}>
           <p><strong>Directors:</strong> {show.directors?.join(', ')}</p>
-          <p><strong>Cast:</strong> {show.cast?.join(', ')}</p>
+          <p>
+            <strong>Cast:</strong>{' '}
+            {item.highlightFields?.cast
+              ? item.highlightFields.cast.map((c, idx) => (
+                  <span
+                    key={idx}
+                    dangerouslySetInnerHTML={{ __html: c }}
+                  />
+                )).reduce((prev, curr) => [prev, ', ', curr])
+              : show.cast?.join(', ')}
+          </p>
           <p><strong>Country:</strong> {show.country?.join(', ')}</p>
           <p><strong>Date Added:</strong> {show.dateAdded}</p>
           <p><strong>Release Year:</strong> {show.releaseYear}</p>
