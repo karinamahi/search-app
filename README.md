@@ -476,7 +476,7 @@ Now, it's considering the `cast` in the search and in the highlight fields.
 Highlight for cast field implemented in the frontend as well.
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v7.png)
 
-It's working, but I think it could be better. I think 
+It looks like the results make sense. The shows with the full actor's name `Lee Jung-jae` receives a higher score than shows with `Lee` or `Jung` or `Jae` combined with other names.  
 
 
 ## Next Steps
