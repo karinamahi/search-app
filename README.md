@@ -419,6 +419,65 @@ I also added the score and the question mark button to display the explanation. 
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v4.png)
 ![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v3.png)
 
+I found a very useful explanation about how the score is calculated:
+
+>**Scoring mechanisms in Elasticsearch**
+> 
+>Elasticsearch uses a scoring model called the Practical Scoring Function (BM25) by default. This model is based on the probabilistic information retrieval theory and takes into account factors such as term frequency, inverse document frequency, and field-length normalization. Let’s briefly discuss these factors:
+>
+>**Term Frequency (TF):** This represents the number of times a term appears in a document. A higher term frequency indicates a stronger relationship between the term and the document.
+> 
+>**Inverse Document Frequency (IDF):** This factor measures the importance of a term in the entire document collection. A term that appears in many documents is considered less important, while a term that appears in fewer documents is considered more important.
+> 
+>**Field-length Normalization:** This factor accounts for the length of the field in which the term appears. Shorter fields are given more weight, as the term is considered more significant in a shorter field.
+
+See the full article [Understanding Elasticsearch Scoring and the Explain API](https://www.elastic.co/search-labs/blog/elasticsearch-scoring-and-explain-api).
+
+I searched for `squid game` and got this result:
+
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v5.png)
+
+The score of the first document is significantly higher than the rest of the shows. See the full explanation [here](public/squid-game-first-result-explanation.json);
+
+So the show "Squid Game" scored ~16.05 because:
+
+- `squid` contributed ~9.64 (very rare word → high idf).
+- `game` contributed ~6.41 (less rare word → smaller idf).
+
+In summary, rare words increase score more (idf effect). And, term frequency and field length normalization (tf, dl, avgdl) prevent very long fields or repeated terms from inflating the score too much.
+
+One thing that may be confusing is the `"match": false` but:
+
+`"match": true` is only shown at the top (document level), meaning: this doc matched the query.
+
+Nested details (idf, tf, boost, etc.) are not “matches” themselves, they’re explanatory components.
+That’s why they appear with "match": false. They’re not “conditions that matched”, but pieces of the math.
+
+### Searching for more fields
+
+May be interesting to search by certain actor. Let's try with the first one of Squid Game: `Lee Jung-jae`
+
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v6.png)
+
+It's not what we expected. Actually, we haven't implemented yet. Our query is only looking at the title field. Let's implement then.
+
+Now, it's considering the `cast` in the search and in the highlight fields.
+```java
+  Highlight highlight = new Highlight(List.of(new HighlightField("title"), new HighlightField("cast")));
+  HighlightQuery highlightQuery = new HighlightQuery(highlight, Show.class);
+
+  NativeQuery query = NativeQuery.builder()
+          .withQuery(q -> q.multiMatch(m -> m.fields("title", "cast").query(userQuery)))
+          .withExplain(true)
+          .withPageable(pageable)
+          .withHighlightQuery(highlightQuery)
+          .build();
+```
+Highlight for cast field implemented in the frontend as well.
+![image info](https://github.com/karinamahi/search-app/blob/main/public/search-page-v7.png)
+
+It looks like the results make sense. The shows with the full actor's name `Lee Jung-jae` receives a higher score than shows with `Lee` or `Jung` or `Jae` combined with other names.  
+
 
 ## Next Steps
 - Explore search (IN PROGRESS)
@@ -427,6 +486,16 @@ I also added the score and the question mark button to display the explanation. 
     - highlightFields
     - explanation
 - Explore Elasticsearch client (IN PROGRESS)
+- Use cases ideas
+  - filters
+  - relevance according to personas
+  - sort
+  - group by category / country / type
+  - zero results
+  - KNN
+  - stop-words
+  - synonyms
+  - tokenization
 
 
 ## References

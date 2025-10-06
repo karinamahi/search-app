@@ -29,12 +29,11 @@ public class SearchShowService {
 
         PageRequest pageable = PageRequest.of(page, size);
 
-        Highlight highlight = new Highlight(List.of(new HighlightField("title")));
+        Highlight highlight = new Highlight(List.of(new HighlightField("title"), new HighlightField("cast")));
         HighlightQuery highlightQuery = new HighlightQuery(highlight, Show.class);
 
         NativeQuery query = NativeQuery.builder()
-                .withQuery(q -> q
-                        .match(m -> m.field("title").query(userQuery)))
+                .withQuery(q -> q.multiMatch(m -> m.fields("title", "cast").query(userQuery)))
                 .withExplain(true)
                 .withPageable(pageable)
                 .withHighlightQuery(highlightQuery)

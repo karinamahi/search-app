@@ -1,0 +1,159 @@
+{
+  "match": true,
+  "value": 16.047651290893555,
+  "description": "sum of:",
+  "details": [
+    {
+      "match": false,
+      "value": 9.638199806213379,
+      "description": "weight(title:squid in 32) [PerFieldSimilarity], result of:",
+      "details": [
+        {
+          "match": false,
+          "value": 9.638199806213379,
+          "description": "score(freq=1.0), computed as boost * idf * tf from:",
+          "details": [
+            {
+              "match": false,
+              "value": 2.200000047683716,
+              "description": "boost",
+              "details": []
+            },
+            {
+              "match": false,
+              "value": 8.238959312438965,
+              "description": "idf, computed as log(1 + (N - n + 0.5) / (n + 0.5)) from:",
+              "details": [
+                {
+                  "match": false,
+                  "value": 2,
+                  "description": "n, number of documents containing term",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 9463,
+                  "description": "N, total number of documents with field",
+                  "details": []
+                }
+              ]
+            },
+            {
+              "match": false,
+              "value": 0.5317418575286865,
+              "description": "tf, computed as freq / (freq + k1 * (1 - b + b * dl / avgdl)) from:",
+              "details": [
+                {
+                  "match": false,
+                  "value": 1,
+                  "description": "freq, occurrences of term within document",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 1.2000000476837158,
+                  "description": "k1, term saturation parameter",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 0.75,
+                  "description": "b, length normalization parameter",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 2,
+                  "description": "dl, length of field",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 3.100179672241211,
+                  "description": "avgdl, average length of field",
+                  "details": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "match": false,
+      "value": 6.409451484680176,
+      "description": "weight(title:game in 32) [PerFieldSimilarity], result of:",
+      "details": [
+        {
+          "match": false,
+          "value": 6.409451484680176,
+          "description": "score(freq=1.0), computed as boost * idf * tf from:",
+          "details": [
+            {
+              "match": false,
+              "value": 2.200000047683716,
+              "description": "boost",
+              "details": []
+            },
+            {
+              "match": false,
+              "value": 5.478949546813965,
+              "description": "idf, computed as log(1 + (N - n + 0.5) / (n + 0.5)) from:",
+              "details": [
+                {
+                  "match": false,
+                  "value": 39,
+                  "description": "n, number of documents containing term",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 9463,
+                  "description": "N, total number of documents with field",
+                  "details": []
+                }
+              ]
+            },
+            {
+              "match": false,
+              "value": 0.5317418575286865,
+              "description": "tf, computed as freq / (freq + k1 * (1 - b + b * dl / avgdl)) from:",
+              "details": [
+                {
+                  "match": false,
+                  "value": 1,
+                  "description": "freq, occurrences of term within document",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 1.2000000476837158,
+                  "description": "k1, term saturation parameter",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 0.75,
+                  "description": "b, length normalization parameter",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 2,
+                  "description": "dl, length of field",
+                  "details": []
+                },
+                {
+                  "match": false,
+                  "value": 3.100179672241211,
+                  "description": "avgdl, average length of field",
+                  "details": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
